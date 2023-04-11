@@ -21,4 +21,5 @@ https://github.com/ThomasGerstenberg/blatann/blob/fe2d85b3e39ff681bb43a0e98c3e41
 
 to python3.8
 
+### firmware is the nfr connectivity burned by this app
 ![image](https://user-images.githubusercontent.com/16415585/231025866-35453884-2838-451f-9c0e-5eaaf7b4958d.png)
