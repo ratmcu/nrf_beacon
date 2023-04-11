@@ -11,6 +11,8 @@ https://github.com/NordicSemiconductor/pc-ble-driver-py branch `release/0.13`
 
 can also be done with given wheel and python3.8
 
+`python3.8 -m pip install pc_ble_driver_py-0.13.0-cp38-cp38-macosx_13_0_arm64.whl`
+
 ### Install blatann https://github.com/ThomasGerstenberg/blatann:
 
 `python3.8 -m pip install blatann`
