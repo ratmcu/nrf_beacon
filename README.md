@@ -20,3 +20,5 @@ run the script https://github.com/ThomasGerstenberg/blatann/blob/master/tools/ma
 https://github.com/ThomasGerstenberg/blatann/blob/fe2d85b3e39ff681bb43a0e98c3e41b5d6f06b83/tools/macos_retarget_pc_ble_driver_py.sh#L13-L14
 
 to python3.8
+
+![image](https://user-images.githubusercontent.com/16415585/231025866-35453884-2838-451f-9c0e-5eaaf7b4958d.png)
