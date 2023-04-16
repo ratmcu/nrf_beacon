@@ -1,0 +1,33 @@
+# server.py
+
+from multiprocessing.connection import Listener
+
+# client
+def child(conn):
+    while True:
+        msg = conn.recv()
+        # this just echos the value back, replace with your custom logic
+        conn.send(msg)
+
+# server
+def mother(address):
+    serv = Listener(address)
+    while True:
+        client = serv.accept()
+        child(client)
+
+mother(('', 5000))
+# client.py
+
+from multiprocessing.connection import Client
+
+
+
+while True:
+    c = Client(('localhost', 5000))
+
+    c.send('hello')
+    print('Got:', c.recv())
+
+    c.send({'a': 123})
+    print('Got:', c.recv())
