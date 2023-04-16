@@ -23,12 +23,12 @@ def main(port):
             scan_report_collection = waitable.wait()
             # print(scan_report_collection)
             # for report in scan_report_collection.advertising_peers_found:
-            #     logger.info(report.peer_address)
-            #     logger.info(report)
+            #     print(report.peer_address)
+            #     print(report)
             # continue
             reports = []
             for report in scan_report_collection.advertising_peers_found:
-                # logger.info(report)
+                # print(report)
                 # print(report)
                 if report.device_name == "RDL52810" and report.peer_address not in reports:
                     # print(report.advertise_data)
@@ -38,15 +38,16 @@ def main(port):
                     byte_list = list(report.advertise_data.service_data)
                     # print ('0x' + ''.join('{:02x}'.format(x) for x in byte_list))
                     if byte_list[0] == 24 and byte_list[1] == 3:
-                        # logger.info(last_arr)
-                        logger.info(f"MAC: {report.peer_address}")
+                        # print(last_arr)
+                        # logger.info(f"MAC: {report.peer_address}")
+                        print(f"MAC: {report.peer_address}")
                         # print(report)
-                        # logger.info(report)
+                        # print(report)
 
                         temperature = float(str(byte_list[2]) + "." + str(byte_list[3]))
-                        logger.info(f"Temperature: {temperature}")
+                        print(f"Temperature: {temperature}")
                         humidity = float(str(byte_list[4]) + "." + str(byte_list[5]))
-                        logger.info(f"Humidity: {humidity}")
+                        print(f"Humidity: {humidity}")
 
                         # print(byte_list)
                         acc_start_idx = 6
@@ -63,7 +64,7 @@ def main(port):
                                 )
                             )
                         )
-                        logger.info(f"X: {acc_X}")
+                        print(f"X: {acc_X}")
 
                         acc_Y = float(
                             str(
@@ -75,7 +76,7 @@ def main(port):
                                 )
                             )
                         )
-                        logger.info(f"Y: {acc_Y}")
+                        print(f"Y: {acc_Y}")
 
                         acc_Z = float(
                             str(
@@ -87,7 +88,7 @@ def main(port):
                                 )
                             )
                         )
-                        logger.info(f"Z: {acc_Z}")
+                        print(f"Z: {acc_Z}")
                         print("\n")
                     else:
                         last_arr = "0x" + "".join(

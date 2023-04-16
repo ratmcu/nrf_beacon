@@ -1,39 +1,56 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
-from PySide6.QtCore import QTimer
+#! /opt/homebrew/bin/python3.8
+
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel
+from PySide6.QtCore import QTimer, Qt
 import pyqtgraph as pg
 import sys
 from random import randint
+import time
+from essential_generators import DocumentGenerator
+gen = DocumentGenerator()
+print(gen.sentence())
+from multiprocessing.connection import Client
+
+# while True:
+#     c = Client(('localhost', 5023))
+
+#     c.send(f'{int(time.time())}')
+#     print('Got:', c.recv())
+
+#     c.send({'a': 123})
+#     print('Got:', c.recv())
+#     time.sleep(1)
+
+
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.graphWidget = pg.PlotWidget()
-        self.setCentralWidget(self.graphWidget)
+        widget = QWidget()
+        self.setCentralWidget(widget)
 
-        self.x = list(range(100))  # 100 time points
-        self.y = [randint(0,100) for _ in range(100)]  # 100 data points
+        layout = QVBoxLayout(widget)
 
-        self.graphWidget.setBackground('w')
+        self.text = QLabel(f'{gen.sentence()}')
+        layout.addWidget(self.text, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        pen = pg.mkPen(color=(255, 0, 0))
-        self.data_line =  self.graphWidget.plot(self.x, self.y, pen=pen)
-
+        # async_trigger = QPushButton(text="What is the question?")
+        # async_trigger.clicked.connect(self.async_start)
+        # layout.addWidget(async_trigger, alignment=Qt.AlignmentFlag.AlignCenter)
         self.timer = QTimer()
-        self.timer.setInterval(50)
-        self.timer.timeout.connect(self.update_plot_data)
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.update_label)
         self.timer.start()
+        self.client = Client(('localhost', 5023))
+# 
 
-    def update_plot_data(self):
+    def update_label(self):
+        # self.text.setText(f'{gen.sentence()}')
+        self.client.send(" ")
+        self.text.setText(f'{self.client.recv()}')
 
-        self.x = self.x[1:]  # Remove the first y element.
-        self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
-
-        self.y = self.y[1:]  # Remove the first
-        self.y.append( randint(0,100))  # Add a new random value.
-
-        self.data_line.setData(self.x, self.y)  # Update the data.
 
 app = QApplication(sys.argv)
 main = MainWindow()
