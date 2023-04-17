@@ -1,14 +1,13 @@
 #! /opt/homebrew/bin/python3.8
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QHBoxLayout
 from PySide6.QtCore import QTimer, Qt
 import pyqtgraph as pg
 import sys
 from random import randint
 import time
 from essential_generators import DocumentGenerator
-gen = DocumentGenerator()
-print(gen.sentence())
+
 from multiprocessing.connection import Client
 
 # while True:
@@ -31,10 +30,12 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         self.setCentralWidget(widget)
 
-        layout = QVBoxLayout(widget)
+        layout = QHBoxLayout(widget)
 
-        self.text = QLabel(f'{gen.sentence()}')
-        layout.addWidget(self.text, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.text = QLabel('------')
+        self.text2 = QLabel('------')
+        layout.addWidget(self.text, alignment=Qt.AlignmentFlag.AlignLeft)
+        layout.addWidget(self.text2, alignment=Qt.AlignmentFlag.AlignRight)
 
         # async_trigger = QPushButton(text="What is the question?")
         # async_trigger.clicked.connect(self.async_start)
@@ -49,7 +50,13 @@ class MainWindow(QMainWindow):
     def update_label(self):
         # self.text.setText(f'{gen.sentence()}')
         self.client.send(" ")
-        self.text.setText(f'{self.client.recv()}')
+        text = self.client.recv()
+        text_parts = text.splitlines()
+        if len(text) >= 3 and text_parts[0][:3]=='MAC':
+            if text_parts[0][-4:-2] == '66':
+                self.text.setText(f'{text_parts[0]},\n {text_parts[1]},\n {text_parts[2]}')
+            if text_parts[0][-4:-2] == 'CA':
+                self.text2.setText(f'{text_parts[0]},\n {text_parts[1]},\n {text_parts[2]}')
 
 
 app = QApplication(sys.argv)
